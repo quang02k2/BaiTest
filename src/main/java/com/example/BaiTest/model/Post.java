@@ -1,11 +1,14 @@
 package com.example.BaiTest.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -27,4 +30,27 @@ public class Post {
     private int likeCount;
 
     private int commentCount;
+
+    @OneToMany(mappedBy = "postSentence", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private Set<PostSentence> postSentence;
+
+    @OneToMany(mappedBy = "refreshTokens", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private Set<UserLikePost> userLikePost;
+
+    @OneToMany(mappedBy = "approvePost", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private Set<ApprovePost> approvePost;
+
+    @OneToMany(mappedBy = "commentPost", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private Set<CommentPost> commentPost;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "userCreatePostId", foreignKey = @ForeignKey(name = "fk_Post_User"), nullable = false)
+    @JsonManagedReference
+    private User user;
+
+
 }

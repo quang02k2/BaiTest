@@ -1,5 +1,6 @@
 package com.example.BaiTest.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,7 +38,10 @@ public class AdviceContact {
 
     private int status;
 
-
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "userContactId", foreignKey = @ForeignKey(name = "fk_AdviceContact_User"), nullable = false)
+    @JsonManagedReference
+    private User user;
 
 
 }

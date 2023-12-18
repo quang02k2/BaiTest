@@ -1,5 +1,6 @@
 package com.example.BaiTest.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,14 @@ public class LearningExperience {
 
     private Timestamp toDate;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "majorsId", foreignKey = @ForeignKey(name = "fk_LearningExperience_Majors"), nullable = false)
+    @JsonManagedReference
+    private Majors majors;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "fk_LearningExperience_User"), nullable = false)
+    @JsonManagedReference
+    private User user;
 
 }

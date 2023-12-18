@@ -1,9 +1,13 @@
 package com.example.BaiTest.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Entity
 @Data
@@ -30,5 +34,19 @@ public class Course {
     private int registerCount;
 
     private int doneCount;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "courseLevelId", foreignKey = @ForeignKey(name = "fk_Course_CourseLevel"), nullable = false)
+    @JsonManagedReference
+    private CourseLevel courseLevel;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "courseTypeId", foreignKey = @ForeignKey(name = "fk_Course_CourseType"), nullable = false)
+    @JsonManagedReference
+    private CourseType courseType;
+
+    @OneToMany(mappedBy = "userCourse", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private Set<UserCourse> userCourse;
 
 }

@@ -1,5 +1,6 @@
 package com.example.BaiTest.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,5 +21,15 @@ public class UserLikePost {
     private Timestamp likeTime;
 
     private boolean isDeleted;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "postId", foreignKey = @ForeignKey(name = "fk_UserLikePost_Post"), nullable = false)
+    @JsonManagedReference
+    private Post post;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "fk_UserLikePost_User"), nullable = false)
+    @JsonManagedReference
+    private User user;
 
 }

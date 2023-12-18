@@ -1,5 +1,6 @@
 package com.example.BaiTest.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,5 +25,9 @@ public class RefreshTokens {
 
     private Timestamp modifiedDate;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "fk_RefreshTokens_User"), nullable = false)
+    @JsonManagedReference
+    private User user;
 
 }

@@ -1,5 +1,6 @@
 package com.example.BaiTest.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,4 +21,16 @@ public class UserLikeCommentLesson {
     private Timestamp createAt;
 
     private boolean isDeleted;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "commentLessonId", foreignKey = @ForeignKey(name = "fk_UserLikeCommentLesson_CommentLesson"), nullable = false)
+    @JsonManagedReference
+    private CommentLesson commentLesson;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "userLikeCommentId", foreignKey = @ForeignKey(name = "fk_UserLikeCommentLesson_User"), nullable = false)
+    @JsonManagedReference
+    private User user;
+
+
 }

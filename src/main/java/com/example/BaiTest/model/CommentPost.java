@@ -1,5 +1,7 @@
 package com.example.BaiTest.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Data
@@ -32,5 +35,19 @@ public class CommentPost {
     private Timestamp removeAt;
 
     private boolean isActive;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "postId", foreignKey = @ForeignKey(name = "fk_CommentPost_Post"), nullable = false)
+    @JsonManagedReference
+    private Post post;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "userCommentId", foreignKey = @ForeignKey(name = "fk_CommentPost_User"), nullable = false)
+    @JsonManagedReference
+    private User user;
+
+    @OneToMany(mappedBy = "userLikeCommentPost", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private Set<UserLikeCommentPost> userLikeCommentPost;
 
 }

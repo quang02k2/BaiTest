@@ -1,5 +1,6 @@
 package com.example.BaiTest.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,4 +28,14 @@ public class ApprovePost {
     private Timestamp createAt;
 
     private Timestamp updateAt;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "postId", foreignKey = @ForeignKey(name = "fk_ApprovePost_Post"), nullable = false)
+    @JsonManagedReference
+    private Post post;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "adminApprovePostId", foreignKey = @ForeignKey(name = "fk_ApprovePost_User"), nullable = false)
+    @JsonManagedReference
+    private User user;
 }
