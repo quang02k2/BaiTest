@@ -45,7 +45,7 @@ public class Course {
     @JsonManagedReference
     private CourseType courseType;
 
-    @OneToMany(mappedBy = "userCourse", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<UserCourse> userCourse;
 

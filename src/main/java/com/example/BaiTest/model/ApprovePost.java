@@ -19,10 +19,6 @@ public class ApprovePost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
-    private int adminApprovePostId;
-
-    private int postId;
-
     private String statusPost;
 
     private Timestamp createAt;
@@ -38,4 +34,6 @@ public class ApprovePost {
     @JoinColumn(name = "adminApprovePostId", foreignKey = @ForeignKey(name = "fk_ApprovePost_User"), nullable = false)
     @JsonManagedReference
     private User user;
+
+
 }

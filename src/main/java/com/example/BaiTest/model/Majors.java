@@ -20,7 +20,7 @@ public class Majors {
 
     private String  name;
 
-    @OneToMany(mappedBy = "learningExperience", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "majors", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<LearningExperience> learningExperience;
 }

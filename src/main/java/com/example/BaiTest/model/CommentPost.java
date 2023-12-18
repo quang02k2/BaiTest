@@ -46,7 +46,7 @@ public class CommentPost {
     @JsonManagedReference
     private User user;
 
-    @OneToMany(mappedBy = "userLikeCommentPost", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "commentPost", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<UserLikeCommentPost> userLikeCommentPost;
 

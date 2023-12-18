@@ -35,11 +35,11 @@ public class Lesson {
     @JsonManagedReference
     private LessonType lessonType;
 
-    @OneToMany(mappedBy = "commentLesson", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<CommentLesson> commentLesson;
 
-    @OneToMany(mappedBy = "userLessonCheckpoint", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<UserLessonCheckpoint> userLessonCheckpoint;
 

@@ -22,7 +22,7 @@ public class Notification {
 
     private String content;
 
-    private Timestamp create;
+    private Timestamp createdAt;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "fk_Notification_User"), nullable = false)
