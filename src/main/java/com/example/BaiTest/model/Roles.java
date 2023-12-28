@@ -23,4 +23,7 @@ public class Roles {
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private Set<User> user;
+
+    public static String ADMIN = "ADMIN";
+    public static String USER = "USER";
 }
