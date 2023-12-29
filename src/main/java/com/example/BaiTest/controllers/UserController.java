@@ -9,6 +9,7 @@ import com.example.BaiTest.components.LocalizationUtils;
 import com.example.BaiTest.utils.MessageKeys;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -63,27 +64,24 @@ public class UserController {
     Thêm tk admin
     * */
 
-//    @PostMapping("/login")
-//    public ResponseEntity<LoginResponse> login(
-//            @Valid @RequestBody UserLoginDTO userLoginDTO
-//    ) {
-//        // Kiểm tra thông tin đăng nhập và sinh token
-//        try {
-//            String token = userService.login(
-//                    userLoginDTO.getEmail(),
-//                    userLoginDTO.getPassword()
-//            );
-//            // Trả về token trong response
-//            return ResponseEntity.ok(LoginResponse.builder()
-//                    .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_SUCCESSFULLY))
-//                    .token(token)
-//                    .build());
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().body(
-//                    LoginResponse.builder()
-//                            .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()))
-//                            .build()
-//            );
-//        }
-//    }
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(
+            @Valid @RequestBody UserLoginDTO userLoginDTO
+    ) {
+        // Kiểm tra thông tin đăng nhập và sinh token
+        try {
+            String token = userService.login(
+                    userLoginDTO.getEmail(),
+                    userLoginDTO.getPassword()
+            );
+            // Trả về token trong response
+            return new ResponseEntity<>(new LoginResponse("Đăng nhập thành công",token), HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    LoginResponse.builder()
+                            .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()))
+                            .build()
+            );
+        }
+    }
 }

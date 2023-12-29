@@ -78,17 +78,18 @@ public class UserService implements IUserService{
         if(optionalUser.isEmpty()) {
             throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.WRONG_PHONE_PASSWORD));
         }
-        //return optionalUser.get();//muốn trả JWT token ?
+        //lấy ra user
         User existingUser = optionalUser.get();
-        //check password
 
+        //Chuyền email,password, role vào authenticationToken để xac thực ngươi dùng
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 email, password,
                 existingUser.getAuthorities()
         );
-
-        //authenticate with Java Spring security
+        //Xác thực người dùng (nếu xác thực không thành công VD:sai email or sai pass ) thì sẽ ném ra ngoại lệ
         authenticationManager.authenticate(authenticationToken);
+
+        //sinh ngẫu nhiên 1 token từ existingUser
         String token = jwtTokenUtil.generateToken(existingUser);
         return token;
     }
