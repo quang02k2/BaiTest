@@ -42,8 +42,8 @@ public class UserService implements IUserService{
         if(userRepository.existsByEmail(email)) {
             throw new DataIntegrityViolationException("Email already exists");
         }
-        Roles userRole = roleRepository.findById(2).orElseThrow(()
-                -> new IllegalStateException("Role not found with ID 1"));
+        Roles userRole = roleRepository.findById(1).orElseThrow(()
+                -> new IllegalStateException("Role not found with ID 2"));
         //convert from userDTO => user
         User newUser = User.builder()
                 .avatar(" ")

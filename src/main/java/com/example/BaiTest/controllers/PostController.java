@@ -6,6 +6,7 @@ import com.example.BaiTest.responses.PostResponse;
 import com.example.BaiTest.services.PostService;
 import com.example.BaiTest.utils.MessageKeys;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +16,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("${api.prefix}/users")
+@RequestMapping("${api.prefix}/post")
+@RequiredArgsConstructor
 public class PostController {
     @Autowired
     private  PostService postService;
 
 
     @PostMapping("/addPost")
-    public ResponseEntity<PostResponse> addPost(@Valid @RequestBody PostDTO post) {
+    public ResponseEntity<?> addPost(@Valid @RequestBody PostDTO post) {
         try {
+            //service chi tra ve du lieu entity model, dong goi response entity lam o controller
             return postService.addPost(post);
+
+
         } catch (Exception e) {
-            return new ResponseEntity<>(new PostResponse("Thêm bài viết thất bại"), HttpStatus.BAD_REQUEST);
+            return  ResponseEntity.badRequest().body(e.getMessage());
+
         }
     }
+
 
 }

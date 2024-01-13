@@ -4,6 +4,7 @@ import com.example.BaiTest.model.PostSentence;
 import com.example.BaiTest.model.User;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -18,9 +19,8 @@ public class PostDTO {
 
     private String imagePost;
 
-    private User user;
+    private Integer userID;
 
-    private Set<PostSentence> sentenceSet;
-
+    private List<PostSentencesDTO> postSentences;
 
 }

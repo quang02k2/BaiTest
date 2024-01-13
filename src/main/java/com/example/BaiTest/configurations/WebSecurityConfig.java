@@ -23,7 +23,6 @@ import java.util.List;
 import static org.springframework.http.HttpMethod.*;
 
 @Configuration
-//@EnableMethodSecurity
 @EnableWebSecurity
 @EnableWebMvc
 @RequiredArgsConstructor
@@ -40,11 +39,11 @@ public class WebSecurityConfig {
                     requests
                             .requestMatchers(
                                     String.format("%s/users/register", apiPrefix),
-                                    String.format("%s/users/login", apiPrefix),
-                                    String.format("%s/users/addPost", apiPrefix)
-
+                                    String.format("%s/users/login", apiPrefix)
                             )
                             .permitAll()
+                            .requestMatchers(POST,
+                                    String.format("%s/post/**", apiPrefix)).hasAnyRole(Roles.USER)
                             .anyRequest().authenticated();
                     //.anyRequest().permitAll();
 
