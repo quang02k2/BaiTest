@@ -3,16 +3,16 @@ package com.example.BaiTest.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Set;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
+@Builder
 @Table(name = "post")
 public class Post {
     @Id

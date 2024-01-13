@@ -26,6 +26,7 @@ import java.util.List;
 public class JwtTokenFilter extends OncePerRequestFilter{
     @Value("${api.prefix}")
     private String apiPrefix;
+
     private final UserDetailsService userDetailsService;
     private final JwtTokenUtils jwtTokenUtil;
     @Override
@@ -72,7 +73,8 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 Pair.of(String.format("%s/products", apiPrefix), "GET"),
                 Pair.of(String.format("%s/categories", apiPrefix), "GET"),
                 Pair.of(String.format("%s/users/register", apiPrefix), "POST"),
-                Pair.of(String.format("%s/users/login", apiPrefix), "POST")
+                Pair.of(String.format("%s/users/login", apiPrefix), "POST"),
+                Pair.of(String.format("%s/users/addPost", apiPrefix), "POST")
         );
         for(Pair<String, String> bypassToken: bypassTokens) {
             if (request.getServletPath().contains(bypassToken.getFirst()) &&
