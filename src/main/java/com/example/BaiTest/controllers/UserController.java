@@ -43,12 +43,6 @@ public class UserController {
             registerResponse.setMessage(errorMessages.toString());
             return ResponseEntity.badRequest().body(registerResponse);
         }
-
-        if (!userDTO.getPassword().equals(userDTO.getRetypePassword())) {
-            registerResponse.setMessage("Mật khẩu xác nhận không khớp");
-            return ResponseEntity.badRequest().body(registerResponse);
-        }
-
         try {
             User user = userService.createUser(userDTO);
             registerResponse.setMessage("Đăng kí thành công");
