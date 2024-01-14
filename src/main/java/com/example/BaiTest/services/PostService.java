@@ -2,6 +2,7 @@ package com.example.BaiTest.services;
 
 import com.example.BaiTest.dtos.PostDTO;
 import com.example.BaiTest.dtos.PostSentencesDTO;
+import com.example.BaiTest.dtos.deletePostDTO;
 import com.example.BaiTest.model.Post;
 import com.example.BaiTest.model.PostSentence;
 import com.example.BaiTest.model.User;
@@ -89,15 +90,15 @@ public class PostService implements iPostService {
     }
 
     @Override
-    public ResponseEntity<?> deletePost(int postId) {
-        Post post = postRepo.findById(postId).orElse(null);
+    public ResponseEntity<?> deletePost(deletePostDTO deletepostdto ) {
+        Post post = postRepo.findById(deletepostdto.getPostID()).orElse(null);
         if(post != null) {
             for (PostSentence x: postSentenceRepo.findAll()) {
-                if(x.getPost().getId() == postId) {
+                if(x.getPost().getId() == deletepostdto.getPostID()) {
                     postSentenceRepo.delete(x);
                 }
             }
-            postRepo.deleteById(postId);
+            postRepo.delete(post);
 
             return new ResponseEntity<>("Deleted", HttpStatus.OK);
         }

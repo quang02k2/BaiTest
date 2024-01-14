@@ -45,7 +45,7 @@ public class WebSecurityConfig {
                             .requestMatchers(POST,
                                     String.format("%s/post/**", apiPrefix)).permitAll()
                             .requestMatchers(DELETE,
-                                    String.format("%s/post/**", apiPrefix)).permitAll()
+                                    String.format("%s/post/deletePost/**", apiPrefix)).permitAll()
                             .anyRequest().authenticated();
                     //.anyRequest().permitAll();
 
