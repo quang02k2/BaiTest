@@ -25,7 +25,8 @@ public class PostResponse {
 
     private int commentCount;
     private PostUserResponse user;
-    private List<PostsentenceResponse> sentences;
+
+    private List<PostSentenceResponse> sentences;
 
 
 
