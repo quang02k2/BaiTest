@@ -43,7 +43,9 @@ public class WebSecurityConfig {
                             )
                             .permitAll()
                             .requestMatchers(POST,
-                                    String.format("%s/post/**", apiPrefix)).hasAnyRole(Roles.USER)
+                                    String.format("%s/post/**", apiPrefix)).permitAll()
+                            .requestMatchers(DELETE,
+                                    String.format("%s/post/**", apiPrefix)).permitAll()
                             .anyRequest().authenticated();
                     //.anyRequest().permitAll();
 

@@ -9,6 +9,7 @@ import com.example.BaiTest.repository.PostRepo;
 import com.example.BaiTest.repository.PostSentenceRepo;
 import com.example.BaiTest.repository.UserRepo;
 import com.example.BaiTest.responses.PostResponse;
+import com.example.BaiTest.responses.PostSentenceResponse;
 import com.example.BaiTest.responses.PostUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PostService implements iPostService {
@@ -50,7 +52,7 @@ public class PostService implements iPostService {
                     .commentCount(0)
                     .build();
             postRepo.save(newPost);
-//            List<PostsentenceResponse> postsentenceResponseList = new ArrayList<>();
+            List<PostSentenceResponse> postsentenceResponseList = new ArrayList<>();
             postSentences.forEach(x -> {
                 PostSentence p = new PostSentence();
                 p.setImagePost(x.getImagePost());
@@ -60,11 +62,16 @@ public class PostService implements iPostService {
                 p.setContent(x.getContent());
                 postSentenceRepo.save(p);
 
-//                postsentenceResponseList.add(PostsentenceResponse.builder().build());
+                postsentenceResponseList.add(PostSentenceResponse.builder()
+                        .imagePost(x.getImagePost())
+                        .imageTile(x.getImageTile())
+                        .content(x.getContent())
+                        .sortNumber(x.getSortNumber()).build());
 
             });
 
-            return new ResponseEntity<>(PostResponse.builder().imagePost(newPost.getImagePost())
+            return new ResponseEntity<>(PostResponse.builder()
+                    .imagePost(newPost.getImagePost())
                     .description(newPost.getDescription())
                     .updateAt(newPost.getUpdateAt())
                     .createAt(newPost.getCreateAt())
@@ -73,14 +80,27 @@ public class PostService implements iPostService {
                     .user(PostUserResponse.builder()
                             .nameUser(user.getUsername())
                             .avatar(user.getAvatar()).build())
-//                    .sentences(postsentenceResponseList)
+
+                    .sentences(postsentenceResponseList)
+
                     .build(),HttpStatus.OK);
         }
         return new ResponseEntity<>(new PostResponse(), HttpStatus.BAD_REQUEST);
     }
 
     @Override
-    public boolean deletePost(int postId) {
-        return false;
+    public ResponseEntity<?> deletePost(int postId) {
+        Post post = postRepo.findById(postId).orElse(null);
+        if(post != null) {
+            for (PostSentence x: postSentenceRepo.findAll()) {
+                if(x.getPost().getId() == postId) {
+                    postSentenceRepo.delete(x);
+                }
+            }
+            postRepo.deleteById(postId);
+
+            return new ResponseEntity<>("Deleted", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Can't delete", HttpStatus.BAD_REQUEST);
     }
 }
