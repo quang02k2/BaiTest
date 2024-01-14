@@ -1,7 +1,7 @@
 package com.example.BaiTest.controllers;
 
 import com.example.BaiTest.dtos.PostDTO;
-import com.example.BaiTest.dtos.deletePostDTO;
+
 import com.example.BaiTest.responses.LoginResponse;
 import com.example.BaiTest.responses.PostResponse;
 import com.example.BaiTest.services.PostService;
@@ -33,14 +33,8 @@ public class PostController {
     }
 
     @DeleteMapping("/deletePost")
-    public ResponseEntity<?> deletePost(@Valid @RequestBody deletePostDTO deletepostdto){
-        try {
-            return postService.deletePost(deletepostdto);
-
-        }catch (Exception e){
-            return new ResponseEntity<>("Can't delete", HttpStatus.BAD_REQUEST);
-        }
-
+    public ResponseEntity<?> deletePost(@Valid @RequestParam int id){
+            return postService.deletePost(id);
     }
 
 

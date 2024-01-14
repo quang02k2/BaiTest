@@ -2,7 +2,8 @@ package com.example.BaiTest.services;
 
 import com.example.BaiTest.dtos.PostDTO;
 import com.example.BaiTest.dtos.PostSentencesDTO;
-import com.example.BaiTest.dtos.deletePostDTO;
+import com.example.BaiTest.dtos.UserDTO;
+
 import com.example.BaiTest.model.Post;
 import com.example.BaiTest.model.PostSentence;
 import com.example.BaiTest.model.User;
@@ -12,6 +13,7 @@ import com.example.BaiTest.repository.UserRepo;
 import com.example.BaiTest.responses.PostResponse;
 import com.example.BaiTest.responses.PostSentenceResponse;
 import com.example.BaiTest.responses.PostUserResponse;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -32,6 +35,9 @@ public class PostService implements iPostService {
 
     @Autowired
     private PostSentenceRepo postSentenceRepo;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     @Override
@@ -90,18 +96,43 @@ public class PostService implements iPostService {
     }
 
     @Override
-    public ResponseEntity<?> deletePost(deletePostDTO deletepostdto ) {
-        Post post = postRepo.findById(deletepostdto.getPostID()).orElse(null);
-        if(post != null) {
-            for (PostSentence x: postSentenceRepo.findAll()) {
-                if(x.getPost().getId() == deletepostdto.getPostID()) {
-                    postSentenceRepo.delete(x);
+    public ResponseEntity<?> deletePost(int id) {
+//        Optional<Post> post = postRepo.findById(id);
+//        if(post.isPresent()){
+//            for (PostSentence postSentence : postSentenceRepo.findAll()){
+//                if (postSentence.getPost().getId() == id){
+//                    postSentence.setPost(null);
+//                    postSentenceRepo.deleteById(postSentence.getId());
+//                }
+//            }
+//            postRepo.deleteById(id);
+//            return new ResponseEntity<>("Deleted", HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>("xoa that bai", HttpStatus.OK);
+        Optional<Post> post1 = postRepo.findById(id);
+        if(post1.isPresent()){
+            for (PostSentence postSentence : postSentenceRepo.findAll()){
+                if (postSentence.getPost().getId() == id){
+                    postSentence.setPost(null);
+                    postSentenceRepo.deleteById(postSentence.getId());
                 }
             }
-            postRepo.delete(post);
-
+            postRepo.deleteById(id);
             return new ResponseEntity<>("Deleted", HttpStatus.OK);
         }
-        return new ResponseEntity<>("Can't delete", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("xoa that bai", HttpStatus.OK);
     }
+
+    public User dtoToUser(UserDTO userDto){
+        User user = this.modelMapper.map(userDto, User.class);
+        return user;
+    }
+
+
+    public UserDTO userToDto(User user) {
+        UserDTO userDto = this.modelMapper.map(user, UserDTO.class);
+        return userDto;
+
+    }
+
 }
