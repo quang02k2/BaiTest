@@ -28,8 +28,6 @@ public class PostController {
         try {
             //service chi tra ve du lieu entity model, dong goi response entity lam o controller
             return postService.addPost(post);
-
-
         } catch (Exception e) {
             return  ResponseEntity.badRequest().body(e.getMessage());
 

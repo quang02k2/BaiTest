@@ -10,6 +10,7 @@ import com.example.BaiTest.repository.PostSentenceRepo;
 import com.example.BaiTest.repository.UserRepo;
 import com.example.BaiTest.responses.PostResponse;
 import com.example.BaiTest.responses.PostUserResponse;
+import com.example.BaiTest.responses.PostsentenceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +51,7 @@ public class PostService implements iPostService {
                     .commentCount(0)
                     .build();
             postRepo.save(newPost);
-//            List<PostsentenceResponse> postsentenceResponseList = new ArrayList<>();
+            List<PostsentenceResponse> postsentenceResponseList = new ArrayList<>();
             postSentences.forEach(x -> {
                 PostSentence p = new PostSentence();
                 p.setImagePost(x.getImagePost());
@@ -59,11 +60,13 @@ public class PostService implements iPostService {
                 p.setSortNumber(x.getSortNumber());
                 p.setContent(x.getContent());
                 postSentenceRepo.save(p);
-
-//                postsentenceResponseList.add(PostsentenceResponse.builder().build());
-
+                postsentenceResponseList.add(PostsentenceResponse.builder()
+                                .imagePost(x.getImagePost())
+                                .imageTile(x.getImageTile())
+                                .content(x.getContent())
+                                .sortNumber(x.getSortNumber())
+                        .build());
             });
-
             return new ResponseEntity<>(PostResponse.builder().imagePost(newPost.getImagePost())
                     .description(newPost.getDescription())
                     .updateAt(newPost.getUpdateAt())
@@ -73,7 +76,7 @@ public class PostService implements iPostService {
                     .user(PostUserResponse.builder()
                             .nameUser(user.getUsername())
                             .avatar(user.getAvatar()).build())
-//                    .sentences(postsentenceResponseList)
+                    .sentences(postsentenceResponseList)
                     .build(),HttpStatus.OK);
         }
         return new ResponseEntity<>(new PostResponse(), HttpStatus.BAD_REQUEST);
