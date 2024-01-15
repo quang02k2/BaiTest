@@ -29,7 +29,7 @@ import java.util.Set;
 @Service
 public class PostService implements iPostService {
     @Autowired
-    private UserDetailsRepositoryReactiveAuthenticationManager userRepo;
+    private UserRepo userRepo;
 
     @Autowired
     private PostRepo postRepo;
@@ -61,22 +61,32 @@ public class PostService implements iPostService {
                     .build();
             postRepo.save(newPost);
             List<PostSentenceResponse> postsentenceResponseList = new ArrayList<>();
-            postSentences.forEach(x -> {
+
+            for(int i=0; i<postSentences.size(); i++) {
                 PostSentence p = new PostSentence();
-                p.setImagePost(x.getImagePost());
+                p.setImagePost(postSentences.get(i).getImagePost());
                 p.setPost(newPost);
-                p.setImageTile(x.getImageTile());
-                p.setSortNumber(x.getSortNumber());
-                p.setContent(x.getContent());
+                p.setImageTile(postSentences.get(i).getImageTile());
+                p.setContent(postSentences.get(i).getContent());
+                p.setSortNumber(i+1);
                 postSentenceRepo.save(p);
+//            postSentences.forEach(x -> {
+//                PostSentence p = new PostSentence();
+//                p.setImagePost(x.getImagePost());
+//                p.setPost(newPost);
+//                p.setImageTile(x.getImageTile());
+//                p.setContent(x.getContent());
+//                p.setSortNumber(autoIncrement(sortnumber));
+//                sortnumber++;
+//                postSentenceRepo.save(p);
 
                 postsentenceResponseList.add(PostSentenceResponse.builder()
-                        .imagePost(x.getImagePost())
-                        .imageTile(x.getImageTile())
-                        .content(x.getContent())
-                        .sortNumber(x.getSortNumber()).build());
+                        .imagePost(postSentences.get(i).getImagePost())
+                        .imageTile(postSentences.get(i).getImageTile())
+                        .content(postSentences.get(i).getContent())
+                        .sortNumber(postSentences.get(i).getSortNumber()).build());
 
-            });
+            };
 
             return new ResponseEntity<>(PostResponse.builder()
                     .imagePost(newPost.getImagePost())
@@ -99,33 +109,35 @@ public class PostService implements iPostService {
     @Override
     public ResponseEntity<?> revisePost(PostDTO postdto) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        int postID = postdto.getId();
+        int postID = postdto.getPostId();
         Post post = postRepo.findById(postID).orElse(null);
         if(post != null) {
-            List<PostSentencesDTO> postSentences = postdto.getPostSentences();
 
-            Post newPost = Post.builder()
-                    .description(postdto.getDescription())
-                    .imagePost(postdto.getImagePost())
-                    .user(userRepo.findById(postdto.getUserID()).orElse(null))
-                    .createAt(post.getCreateAt())
-                    .updateAt(timestamp)
-                    .likeCount(post.getLikeCount())
-                    .commentCount(post.getCommentCount())
-                    .build();
+            List<PostSentencesDTO> postSentencesDTO = postdto.getPostSentences();
 
-            postSentences.forEach(x -> {
+            post.setDescription(postdto.getDescription());
+            post.setImagePost(postdto.getImagePost());
+            post.setUser(userRepo.findById(postdto.getUserID()).orElse(null));
+            post.setUpdateAt(timestamp);
+            postRepo.save(post);
+
+            postSentenceRepo.findAll().forEach(x-> {
+                if(x.getPost().getId() == postID) {
+                    x.setPost(null);
+                    postSentenceRepo.deleteById(x.getId());
+                }
+            });
+
+            postSentencesDTO.forEach(x -> {
                 PostSentence p = new PostSentence();
                 p.setImagePost(x.getImagePost());
-                p.setPost(newPost);
+                p.setPost(post);
                 p.setImageTile(x.getImageTile());
                 p.setSortNumber(x.getSortNumber());
                 p.setContent(x.getContent());
                 postSentenceRepo.save(p);
-
             });
-            post = newPost;
-            postRepo.save(post);
+
             return new ResponseEntity<>("Revised", HttpStatus.OK);
         }
         return new ResponseEntity<>("Can't revise", HttpStatus.BAD_REQUEST);
