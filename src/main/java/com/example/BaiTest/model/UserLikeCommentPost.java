@@ -3,6 +3,7 @@ package com.example.BaiTest.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 @Table(name = "userLikeCommentPost")
 public class UserLikeCommentPost {
     @Id
