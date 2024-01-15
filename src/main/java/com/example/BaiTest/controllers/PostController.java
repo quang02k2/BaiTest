@@ -32,6 +32,17 @@ public class PostController {
         }
     }
 
+    @PutMapping("revisePost")
+    public ResponseEntity<?> revisePost(@Valid @RequestBody PostDTO post) {
+        try {
+            //service chi tra ve du lieu entity model, dong goi response entity lam o controller
+            return postService.revisePost(post);
+        } catch (Exception e) {
+            return  ResponseEntity.badRequest().body(e.getMessage());
+
+        }
+    }
+
     @DeleteMapping("/deletePost")
     public ResponseEntity<?> deletePost(@Valid @RequestParam int id){
             return postService.deletePost(id);

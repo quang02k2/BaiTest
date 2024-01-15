@@ -17,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -28,7 +29,7 @@ import java.util.Set;
 @Service
 public class PostService implements iPostService {
     @Autowired
-    private UserRepo userRepo;
+    private UserDetailsRepositoryReactiveAuthenticationManager userRepo;
 
     @Autowired
     private PostRepo postRepo;
@@ -36,8 +37,8 @@ public class PostService implements iPostService {
     @Autowired
     private PostSentenceRepo postSentenceRepo;
 
-    @Autowired
-    private ModelMapper modelMapper;
+//    @Autowired
+//    private ModelMapper modelMapper;
 
 
     @Override
@@ -96,6 +97,41 @@ public class PostService implements iPostService {
     }
 
     @Override
+    public ResponseEntity<?> revisePost(PostDTO postdto) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        int postID = postdto.getId();
+        Post post = postRepo.findById(postID).orElse(null);
+        if(post != null) {
+            List<PostSentencesDTO> postSentences = postdto.getPostSentences();
+
+            Post newPost = Post.builder()
+                    .description(postdto.getDescription())
+                    .imagePost(postdto.getImagePost())
+                    .user(userRepo.findById(postdto.getUserID()).orElse(null))
+                    .createAt(post.getCreateAt())
+                    .updateAt(timestamp)
+                    .likeCount(post.getLikeCount())
+                    .commentCount(post.getCommentCount())
+                    .build();
+
+            postSentences.forEach(x -> {
+                PostSentence p = new PostSentence();
+                p.setImagePost(x.getImagePost());
+                p.setPost(newPost);
+                p.setImageTile(x.getImageTile());
+                p.setSortNumber(x.getSortNumber());
+                p.setContent(x.getContent());
+                postSentenceRepo.save(p);
+
+            });
+            post = newPost;
+            postRepo.save(post);
+            return new ResponseEntity<>("Revised", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Can't revise", HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
     public ResponseEntity<?> deletePost(int id) {
 //        Optional<Post> post = postRepo.findById(id);
 //        if(post.isPresent()){
@@ -120,19 +156,21 @@ public class PostService implements iPostService {
             postRepo.deleteById(id);
             return new ResponseEntity<>("Deleted", HttpStatus.OK);
         }
-        return new ResponseEntity<>("xoa that bai", HttpStatus.OK);
-    }
-
-    public User dtoToUser(UserDTO userDto){
-        User user = this.modelMapper.map(userDto, User.class);
-        return user;
+        return new ResponseEntity<>("xoa that bai", HttpStatus.BAD_REQUEST);
     }
 
 
-    public UserDTO userToDto(User user) {
-        UserDTO userDto = this.modelMapper.map(user, UserDTO.class);
-        return userDto;
 
-    }
+//    public User dtoToUser(UserDTO userDto){
+//        User user = this.modelMapper.map(userDto, User.class);
+//        return user;
+//    }
+//
+//
+//    public UserDTO userToDto(User user) {
+//        UserDTO userDto = this.modelMapper.map(user, UserDTO.class);
+//        return userDto;
+//
+//    }
 
 }
