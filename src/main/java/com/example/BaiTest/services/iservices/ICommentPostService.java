@@ -1,8 +1,6 @@
-package com.example.BaiTest.services;
+package com.example.BaiTest.services.iservices;
 
-import com.example.BaiTest.dtos.CommentPostDTO;
-import com.example.BaiTest.model.CommentPost;
-import com.example.BaiTest.responses.CommentPostResponse;
+import com.example.BaiTest.dtos.Post.CommentPostDTO;
 import org.springframework.http.ResponseEntity;
 
 public interface ICommentPostService {

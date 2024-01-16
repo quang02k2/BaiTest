@@ -1,9 +1,11 @@
 package com.example.BaiTest.controllers;
 
+import com.example.BaiTest.dtos.User.UserDTO;
+import com.example.BaiTest.dtos.User.UserLoginDTO;
 import com.example.BaiTest.model.User;
 import com.example.BaiTest.responses.LoginResponse;
 import com.example.BaiTest.responses.RegisterResponse;
-import com.example.BaiTest.services.IUserService;
+import com.example.BaiTest.services.iservices.IUserService;
 
 import com.example.BaiTest.components.LocalizationUtils;
 import com.example.BaiTest.utils.MessageKeys;
@@ -14,10 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import com.example.BaiTest.dtos.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("${api.prefix}/users")

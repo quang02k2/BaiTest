@@ -1,33 +1,27 @@
-package com.example.BaiTest.services;
+package com.example.BaiTest.services.implement;
 
 import com.example.BaiTest.components.JwtTokenUtils;
 import com.example.BaiTest.components.LocalizationUtils;
-import com.example.BaiTest.dtos.UserDTO;
-import com.example.BaiTest.dtos.UserLoginDTO;
+import com.example.BaiTest.dtos.User.UserDTO;
 import com.example.BaiTest.exceptions.DataNotFoundException;
 
-import com.example.BaiTest.exceptions.PermissionDenyException;
 import com.example.BaiTest.model.*;
 import com.example.BaiTest.repository.RolesRepo;
 import com.example.BaiTest.repository.UserRepo;
-import com.example.BaiTest.responses.LoginResponse;
+import com.example.BaiTest.services.iservices.IUserService;
 import com.example.BaiTest.utils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import javax.swing.text.html.Option;
+
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class UserService implements IUserService{
+public class UserService implements IUserService {
     private final UserRepo userRepository;
     private final RolesRepo roleRepository;
     private final PasswordEncoder passwordEncoder;

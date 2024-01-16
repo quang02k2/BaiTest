@@ -1,4 +1,4 @@
-package com.example.BaiTest.dtos;
+package com.example.BaiTest.dtos.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

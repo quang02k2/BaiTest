@@ -1,15 +1,11 @@
 package com.example.BaiTest.controllers;
 
-import com.example.BaiTest.dtos.PostDTO;
+import com.example.BaiTest.dtos.Post.PostDTO;
 
-import com.example.BaiTest.responses.LoginResponse;
-import com.example.BaiTest.responses.PostResponse;
-import com.example.BaiTest.services.PostService;
-import com.example.BaiTest.utils.MessageKeys;
+import com.example.BaiTest.services.implement.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

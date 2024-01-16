@@ -1,11 +1,8 @@
-package com.example.BaiTest.dtos;
+package com.example.BaiTest.dtos.Post;
 
-import com.example.BaiTest.model.PostSentence;
-import com.example.BaiTest.model.User;
 import lombok.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Builder

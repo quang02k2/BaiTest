@@ -1,4 +1,4 @@
-package com.example.BaiTest.dtos;
+package com.example.BaiTest.dtos.User;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;

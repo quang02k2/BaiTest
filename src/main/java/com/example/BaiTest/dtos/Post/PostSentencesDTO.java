@@ -1,4 +1,4 @@
-package com.example.BaiTest.dtos;
+package com.example.BaiTest.dtos.Post;
 
 import lombok.*;
 

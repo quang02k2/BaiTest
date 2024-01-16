@@ -1,12 +1,13 @@
-package com.example.BaiTest.services;
+package com.example.BaiTest.services.implement;
 
+import com.example.BaiTest.dtos.Post.UserLikeCommentPostDTO;
 import com.example.BaiTest.model.CommentPost;
 import com.example.BaiTest.model.User;
 import com.example.BaiTest.model.UserLikeCommentPost;
 import com.example.BaiTest.repository.CommentPostRepo;
 import com.example.BaiTest.repository.UserLikeCommentPostRepo;
 import com.example.BaiTest.repository.UserRepo;
-import org.modelmapper.ModelMapper;
+import com.example.BaiTest.services.iservices.IUserLikeCommentPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +24,21 @@ public class UserLikeCommentPostServices implements IUserLikeCommentPostService 
     @Autowired
     private UserRepo userRepo;
 
+    private int updateLikeCountUserLikeCommentPost (int commentPostID){
+        int likeCount= 0;
+        for (UserLikeCommentPost cmt: userLikeCommentPostRepoo.findAll()){
+            if(cmt.getCommentPost().getId() == commentPostID){
+                likeCount ++;
+            }
+        }
+        return likeCount;
+    }
+
     @Override
-    public ResponseEntity<?> addUserLikeCommentPost(UserLikeCommentPost userLikeCommentPost) {
+    public ResponseEntity<?> addUserLikeCommentPost(UserLikeCommentPostDTO userLikeCommentPostDTO) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        CommentPost commentPost = commentPostRepo.findById(userLikeCommentPost.getCommentPost().getId()).orElse(null);
-        User user = userRepo.findById(userLikeCommentPost.getUser().getId()).orElse(null);
+        CommentPost commentPost = commentPostRepo.findById(userLikeCommentPostDTO.getCommentPostID()).orElse(null);
+        User user = userRepo.findById(userLikeCommentPostDTO.getUserID()).orElse(null);
         if(commentPost !=  null){
             UserLikeCommentPost userlikeCommentpost = UserLikeCommentPost.builder()
                     .user(user)
@@ -35,6 +46,8 @@ public class UserLikeCommentPostServices implements IUserLikeCommentPostService 
                     .createAt(timestamp)
                     .build();
             userLikeCommentPostRepoo.save(userlikeCommentpost);
+            commentPost.setLikeCount(updateLikeCountUserLikeCommentPost(userLikeCommentPostDTO.getCommentPostID()));
+            commentPostRepo.save(commentPost);
             return new ResponseEntity<>("liked", HttpStatus.OK);
         }
         return new ResponseEntity<>("Cann't like", HttpStatus.BAD_REQUEST);

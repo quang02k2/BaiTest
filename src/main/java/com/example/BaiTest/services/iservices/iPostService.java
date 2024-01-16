@@ -1,6 +1,6 @@
-package com.example.BaiTest.services;
+package com.example.BaiTest.services.iservices;
 
-import com.example.BaiTest.dtos.PostDTO;
+import com.example.BaiTest.dtos.Post.PostDTO;
 
 import com.example.BaiTest.responses.PostResponse;
 import org.springframework.http.ResponseEntity;

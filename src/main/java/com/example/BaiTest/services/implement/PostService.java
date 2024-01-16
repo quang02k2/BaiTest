@@ -1,8 +1,7 @@
-package com.example.BaiTest.services;
+package com.example.BaiTest.services.implement;
 
-import com.example.BaiTest.dtos.PostDTO;
-import com.example.BaiTest.dtos.PostSentencesDTO;
-import com.example.BaiTest.dtos.UserDTO;
+import com.example.BaiTest.dtos.Post.PostDTO;
+import com.example.BaiTest.dtos.Post.PostSentencesDTO;
 
 import com.example.BaiTest.model.Post;
 import com.example.BaiTest.model.PostSentence;
@@ -13,18 +12,16 @@ import com.example.BaiTest.repository.UserRepo;
 import com.example.BaiTest.responses.PostResponse;
 import com.example.BaiTest.responses.PostSentenceResponse;
 import com.example.BaiTest.responses.PostUserResponse;
-import org.modelmapper.ModelMapper;
+import com.example.BaiTest.services.iservices.iPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class PostService implements iPostService {
