@@ -3,12 +3,8 @@ package com.example.BaiTest.services.implement;
 import com.example.BaiTest.dtos.Post.PostDTO;
 import com.example.BaiTest.dtos.Post.PostSentencesDTO;
 
-import com.example.BaiTest.model.Post;
-import com.example.BaiTest.model.PostSentence;
-import com.example.BaiTest.model.User;
-import com.example.BaiTest.repository.PostRepo;
-import com.example.BaiTest.repository.PostSentenceRepo;
-import com.example.BaiTest.repository.UserRepo;
+import com.example.BaiTest.model.*;
+import com.example.BaiTest.repository.*;
 import com.example.BaiTest.responses.PostResponse;
 import com.example.BaiTest.responses.PostSentenceResponse;
 import com.example.BaiTest.responses.PostUserResponse;
@@ -19,9 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PostService implements iPostService {
@@ -33,6 +27,12 @@ public class PostService implements iPostService {
 
     @Autowired
     private PostSentenceRepo postSentenceRepo;
+
+    @Autowired
+    private CommentPostRepo commentPostRepo;
+
+    @Autowired
+    private UserLikeCommentPostRepo userLikeCommentPostRepo;
 
 //    @Autowired
 //    private ModelMapper modelMapper;
@@ -142,18 +142,6 @@ public class PostService implements iPostService {
 
     @Override
     public ResponseEntity<?> deletePost(int id) {
-//        Optional<Post> post = postRepo.findById(id);
-//        if(post.isPresent()){
-//            for (PostSentence postSentence : postSentenceRepo.findAll()){
-//                if (postSentence.getPost().getId() == id){
-//                    postSentence.setPost(null);
-//                    postSentenceRepo.deleteById(postSentence.getId());
-//                }
-//            }
-//            postRepo.deleteById(id);
-//            return new ResponseEntity<>("Deleted", HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>("xoa that bai", HttpStatus.OK);
         Optional<Post> post1 = postRepo.findById(id);
         if(post1.isPresent()){
             for (PostSentence postSentence : postSentenceRepo.findAll()){
@@ -162,6 +150,23 @@ public class PostService implements iPostService {
                     postSentenceRepo.deleteById(postSentence.getId());
                 }
             }
+
+
+            for(CommentPost commentPost : commentPostRepo.findAll()){
+                if(commentPost.getPost().getId()== id){
+                    int commentPostID = commentPost.getId();
+                    Set<UserLikeCommentPost> userLikeCommentPosts = new HashSet<>();
+                    for (UserLikeCommentPost like : userLikeCommentPostRepo.findAll()){
+                        if(like.getCommentPost().getId()== commentPostID){
+                            userLikeCommentPosts.add(like);
+                        }
+                    }
+                    userLikeCommentPostRepo.deleteAll(userLikeCommentPosts);
+                    commentPost.setPost(null);
+                    commentPostRepo.deleteById(commentPostID);
+                }
+            }
+
             postRepo.deleteById(id);
             return new ResponseEntity<>("Deleted", HttpStatus.OK);
         }
