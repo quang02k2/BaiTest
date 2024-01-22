@@ -12,5 +12,6 @@ public interface CourseTypeService {
     CourseTypeDto getCourseTypeDto(int courseTypeId);
 
     List<CourseTypeDto> findByNameContaining(String keyWord);
+    List<Object[]> getTop3CourseType();
 
 }

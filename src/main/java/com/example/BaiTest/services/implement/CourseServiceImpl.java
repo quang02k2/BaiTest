@@ -47,8 +47,8 @@ public class CourseServiceImpl implements CourseService {
 
         Course course = this.dtoToCourse(courseDto);
         course.setImageCourse("default.png");
-        course.setRegisterCount(0);
-        course.setDoneCount(0);
+        course.setRegisterCount(courseDto.getRegisterCount());
+        course.setDoneCount(1);
         course.setCourseLevel(courseLevel);
         course.setCourseType(courseType);
 

@@ -12,11 +12,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class CourseTypeServiceImpl implements CourseTypeService {
+
+
     @Autowired
     private CourseTypeRepo courseTypeRepo;
 
@@ -67,6 +70,12 @@ public class CourseTypeServiceImpl implements CourseTypeService {
         List<CourseTypeDto> courseTypeDtos = courseTypes.stream().map((courseType)-> this.courseTypeToDto(courseType)).collect(Collectors.toList());
         return courseTypeDtos;
     }
+
+    @Override
+    public List<Object[]> getTop3CourseType() {
+        return courseTypeRepo.getTop3CourseTypes();
+    }
+
 
     public CourseType dtoToCourseType(CourseTypeDto courseTypeDto){
         return modelMapper.map(courseTypeDto, CourseType.class);
