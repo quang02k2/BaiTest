@@ -151,18 +151,18 @@ public class PostService implements iPostService {
                 }
             }
 
-
             for(CommentPost commentPost : commentPostRepo.findAll()){
                 if(commentPost.getPost().getId()== id){
                     int commentPostID = commentPost.getId();
-                    Set<UserLikeCommentPost> userLikeCommentPosts = new HashSet<>();
                     for (UserLikeCommentPost like : userLikeCommentPostRepo.findAll()){
                         if(like.getCommentPost().getId()== commentPostID){
-                            userLikeCommentPosts.add(like);
+                            like.setUser(null);
+                            like.setCommentPost(null);
+                            userLikeCommentPostRepo.deleteById(like.getId());
                         }
                     }
-                    userLikeCommentPostRepo.deleteAll(userLikeCommentPosts);
                     commentPost.setPost(null);
+                    commentPost.setUser(null);
                     commentPostRepo.deleteById(commentPostID);
                 }
             }
