@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 
 @Service
 public class UserLikeCommentPostServices implements IUserLikeCommentPostService {
@@ -51,5 +52,19 @@ public class UserLikeCommentPostServices implements IUserLikeCommentPostService 
             return new ResponseEntity<>("liked", HttpStatus.OK);
         }
         return new ResponseEntity<>("Cann't like", HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public void deleteUserLikeCommentPost(int id) {
+        UserLikeCommentPost userLikeCommentPost = userLikeCommentPostRepoo.findById(id).orElse(null);
+        if(userLikeCommentPost != null){
+            int commentPostID = userLikeCommentPost.getCommentPost().getId();
+            CommentPost commentPost = commentPostRepo.findById(commentPostID).orElse(null);
+            userLikeCommentPostRepoo.deleteById(id);
+
+            assert commentPost != null;
+            commentPost.setLikeCount(updateLikeCountUserLikeCommentPost(commentPostID));
+            commentPostRepo.save(commentPost);
+        }
     }
 }

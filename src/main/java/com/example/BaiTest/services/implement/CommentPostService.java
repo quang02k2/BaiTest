@@ -1,17 +1,17 @@
 package com.example.BaiTest.services.implement;
 
 
+import com.example.BaiTest.dtos.CourseDto;
 import com.example.BaiTest.dtos.Post.CommentPostDTO;
-import com.example.BaiTest.model.CommentPost;
-import com.example.BaiTest.model.Post;
-import com.example.BaiTest.model.User;
-import com.example.BaiTest.model.UserLikeCommentPost;
+import com.example.BaiTest.exceptions.ResourceNotFoundException;
+import com.example.BaiTest.model.*;
 import com.example.BaiTest.repository.CommentPostRepo;
 import com.example.BaiTest.repository.PostRepo;
 import com.example.BaiTest.repository.UserLikeCommentPostRepo;
 import com.example.BaiTest.repository.UserRepo;
 import com.example.BaiTest.responses.CommentPostResponse;
 import com.example.BaiTest.services.iservices.ICommentPostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +30,8 @@ public class CommentPostService implements ICommentPostService {
     private CommentPostRepo commentPostRepo;
     @Autowired
     private UserLikeCommentPostRepo userLikeCommentPostRepo;
+    @Autowired
+    private ModelMapper modelMapper;
 
     public int updateCommentCount (int postID){
         int countCommentofPost = 0 ;
@@ -91,5 +93,21 @@ public class CommentPostService implements ICommentPostService {
                 return  new ResponseEntity<>("Deleted Comment", HttpStatus.OK);
          }
         return new ResponseEntity<>("Can't delete", HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public CommentPostResponse updateCommentPost(CommentPostDTO commentPostDTO, int commentPostID) {
+        CommentPost commentPost = this.commentPostRepo.findById(commentPostID).orElseThrow(()->
+                new ResourceNotFoundException("CommentPost", "CommentPostId", (long)commentPostID));
+
+        commentPost.setComment(commentPostDTO.getComment());
+
+        CommentPost updateCommentPost = this.commentPostRepo.save(commentPost);
+
+        return this.commentPostToResponse(updateCommentPost);
+    }
+
+    public CommentPostResponse commentPostToResponse(CommentPost commentPost){
+        return modelMapper.map(commentPost, CommentPostResponse.class);
     }
 }

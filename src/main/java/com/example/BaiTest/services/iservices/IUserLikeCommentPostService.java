@@ -6,4 +6,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface IUserLikeCommentPostService {
     ResponseEntity<?> addUserLikeCommentPost(UserLikeCommentPostDTO userLikeCommentPostDTO);
+
+    void deleteUserLikeCommentPost ( int id);
 }
