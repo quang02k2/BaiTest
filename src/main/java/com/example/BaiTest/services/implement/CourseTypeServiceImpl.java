@@ -7,12 +7,15 @@ import com.example.BaiTest.model.Course;
 import com.example.BaiTest.model.CourseType;
 import com.example.BaiTest.repository.CourseRepo;
 import com.example.BaiTest.repository.CourseTypeRepo;
+import com.example.BaiTest.responses.CourseTypeResponse;
 import com.example.BaiTest.services.iservices.CourseTypeService;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,7 +76,10 @@ public class CourseTypeServiceImpl implements CourseTypeService {
 
     @Override
     public List<Object[]> getTop3CourseType() {
+
         return courseTypeRepo.getTop3CourseTypes();
+
+
     }
 
 

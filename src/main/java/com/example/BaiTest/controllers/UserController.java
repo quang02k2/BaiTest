@@ -13,11 +13,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("${api.prefix}/users")
@@ -25,6 +27,7 @@ import java.util.List;
 public class UserController {
     private final IUserService userService;
     private final LocalizationUtils localizationUtils;
+    private final UserDetailsService userDetailsService;
 
     @PostMapping("/register")
     //can we register an "admin" user ?
@@ -68,8 +71,12 @@ public class UserController {
                     userLoginDTO.getEmail(),
                     userLoginDTO.getPassword()
             );
+            User userDetails = (User) userDetailsService.loadUserByUsername(userLoginDTO.getEmail());
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(item -> item.getAuthority())
+                    .collect(Collectors.toList());
             // Trả về token trong response
-            return new ResponseEntity<>(new LoginResponse("Đăng nhập thành công",token), HttpStatus.OK);
+            return new ResponseEntity<>(new LoginResponse("Đăng nhập thành công", token, roles), HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(
                     LoginResponse.builder()

@@ -4,6 +4,7 @@ import com.example.BaiTest.dtos.ApiResponse;
 import com.example.BaiTest.dtos.CourseTypeDto;
 import com.example.BaiTest.model.CourseType;
 import com.example.BaiTest.repository.CourseTypeRepo;
+import com.example.BaiTest.responses.CourseTypeResponse;
 import com.example.BaiTest.services.implement.CourseTypeServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -52,6 +52,7 @@ public class CourseServiceImpl implements CourseService {
         course.setCourseLevel(courseLevel);
         course.setCourseType(courseType);
 
+
         Course createCourse = this.courseRepo.save(course);
         return this.courseToDto(createCourse);
     }

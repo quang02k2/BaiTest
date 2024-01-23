@@ -11,9 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class CourseTypeResponse {
-    private String courseName;
-    private String imageCourse;
-    private String courseTypeName;
-    private String lessonCount;
-    private String timeLessonTotal;
+    private String image_course;
+    private String name_of_course;
+    private String course_type_name;
+    private Integer lesson_count;
+    private String time_lesson_total;
 }

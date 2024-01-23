@@ -3,6 +3,8 @@ package com.example.BaiTest.responses;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,4 +16,5 @@ public class LoginResponse {
 
     @JsonProperty("token")
     private String token;
+    private List<String> roles;
 }

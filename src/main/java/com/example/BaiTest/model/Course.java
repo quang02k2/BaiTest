@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -34,6 +35,7 @@ public class Course {
     private int registerCount;
 
     private int doneCount;
+    private LocalDate createdDate;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "courseLevelId", foreignKey = @ForeignKey(name = "fk_Course_CourseLevel"), nullable = false)

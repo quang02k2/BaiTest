@@ -2,6 +2,9 @@ package com.example.BaiTest.repository;
 
 import com.example.BaiTest.model.CourseType;
 import com.example.BaiTest.responses.CourseTypeResponse;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +16,8 @@ import java.util.List;
 
 
 @Repository
-public interface CourseTypeRepo extends JpaRepository<CourseType, Integer> {
 
+public interface CourseTypeRepo extends JpaRepository<CourseType, Integer> {
 
     List<CourseType> findByNameContaining(String name);
 
@@ -59,7 +62,7 @@ public interface CourseTypeRepo extends JpaRepository<CourseType, Integer> {
                     " JOIN" +
                     "    Top3CourseTypes tt ON rc.course_type_name = tt.course_type_name" +
                     " WHERE" +
-                    "    rc.rn <= 2" +
+                    "    rc.rn <= 15" +
                     " ORDER BY" +
                     "    rc.register_count DESC;")
     List< Object[] > getTop3CourseTypes();
