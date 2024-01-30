@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,12 +70,18 @@ public class LearningExperienceServiceImpl implements LearningExperienceService 
         Majors majors = this.majorsRepo.findById(majorId).orElseThrow(() -> new ResourceNotFoundException("Majors", "Majors Id", (long) majorId));
         LearningExperience learningExperience = this.dtoToDLearningExperience(learningExperienceDto);
 
-        Timestamp fromDate = learningExperience.getFromDate();
-        Timestamp toDate = learningExperience.getToDate();
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+        learningExperience.setFromDate(currentTimestamp);
 
-        if (fromDate.after(toDate)) {
-            throw new IllegalArgumentException("fromDate cannot be after toDate");
-        }
+// Adding 20 days (or any other duration) to the current timestamp
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(currentTimestamp.getTime());
+        calendar.add(Calendar.DAY_OF_MONTH, 20);
+        Timestamp toDate = new Timestamp(calendar.getTimeInMillis());
+        learningExperience.setToDate(toDate);
+
+//        Timestamp fromDate = learningExperience.getFromDate();
+//        Timestamp toDate = learningExperience.getToDate();
 
         learningExperience.setUser(user);
         learningExperience.setMajors(majors);

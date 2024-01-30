@@ -1,6 +1,6 @@
 package com.example.BaiTest.dtos;
 
-import com.example.BaiTest.dtos.User.UserDTO;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 public class LearningExperienceDto {
-    private int Id;
+//    private int Id;
 
     private Timestamp fromDate;
 
@@ -17,6 +17,5 @@ public class LearningExperienceDto {
 
     private MajorsDto majors;
 
-    private UserDTO user;
 
 }

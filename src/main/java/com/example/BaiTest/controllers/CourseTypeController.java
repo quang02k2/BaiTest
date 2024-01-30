@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/courseType")
+@RequestMapping("${api.prefix}/courseType")
 public class CourseTypeController {
 
     @Autowired

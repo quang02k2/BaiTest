@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/learningExperience")
+@RequestMapping("${api.prefix}/learningExperience")
 public class LearningExperienceController {
     @Autowired
     private ModelMapper modelMapper;
