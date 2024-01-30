@@ -38,7 +38,10 @@ public class WebSecurityConfig {
                     requests
                             .requestMatchers(
                                     String.format("%s/users/register", apiPrefix),
-                                    String.format("%s/users/login", apiPrefix)
+                                    String.format("%s/users/login", apiPrefix),
+                                    String.format("%s/courseType/top3CourseType", apiPrefix),
+                                    String.format("%s/notification/getAllNoti", apiPrefix),
+                                    String.format("%s/notification/addNoti", apiPrefix)
                             )
                             .permitAll()
                             .requestMatchers(POST,

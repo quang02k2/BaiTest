@@ -76,7 +76,6 @@ public class CourseTypeServiceImpl implements CourseTypeService {
 
     @Override
     public List<Object[]> getTop3CourseType() {
-
         return courseTypeRepo.getTop3CourseTypes();
 
 

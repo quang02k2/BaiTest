@@ -56,6 +56,7 @@ public class PostService implements iPostService {
                     .likeCount(0)
                     .commentCount(0)
                     .build();
+
             postRepo.save(newPost);
             List<PostSentenceResponse> postsentenceResponseList = new ArrayList<>();
 
