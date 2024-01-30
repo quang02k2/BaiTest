@@ -34,6 +34,9 @@ public class PostService implements iPostService {
     @Autowired
     private UserLikeCommentPostRepo userLikeCommentPostRepo;
 
+    @Autowired
+    private ApprovePostRepo approvePostRepo;
+
 //    @Autowired
 //    private ModelMapper modelMapper;
 
@@ -68,15 +71,6 @@ public class PostService implements iPostService {
                 p.setContent(postSentences.get(i).getContent());
                 p.setSortNumber(i+1);
                 postSentenceRepo.save(p);
-//            postSentences.forEach(x -> {
-//                PostSentence p = new PostSentence();
-//                p.setImagePost(x.getImagePost());
-//                p.setPost(newPost);
-//                p.setImageTile(x.getImageTile());
-//                p.setContent(x.getContent());
-//                p.setSortNumber(autoIncrement(sortnumber));
-//                sortnumber++;
-//                postSentenceRepo.save(p);
 
                 postsentenceResponseList.add(PostSentenceResponse.builder()
                         .imagePost(postSentences.get(i).getImagePost())
@@ -85,6 +79,13 @@ public class PostService implements iPostService {
                         .sortNumber(postSentences.get(i).getSortNumber()).build());
 
             };
+
+            ApprovePost approvePost = new ApprovePost();
+            approvePost.setPost(newPost);
+            approvePost.setUser(user);
+            approvePost.setStatusPost("Chưa phê duyệt");
+            approvePost.setCreateAt(timestamp);
+            approvePostRepo.save(approvePost);
 
             return new ResponseEntity<>(PostResponse.builder()
                     .imagePost(newPost.getImagePost())
@@ -173,19 +174,5 @@ public class PostService implements iPostService {
         }
         return new ResponseEntity<>("xoa that bai", HttpStatus.BAD_REQUEST);
     }
-
-
-
-//    public User dtoToUser(UserDTO userDto){
-//        User user = this.modelMapper.map(userDto, User.class);
-//        return user;
-//    }
-//
-//
-//    public UserDTO userToDto(User user) {
-//        UserDTO userDto = this.modelMapper.map(user, UserDTO.class);
-//        return userDto;
-//
-//    }
 
 }
