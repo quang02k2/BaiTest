@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/majors")
+@RequestMapping("${api.prefix}/majors")
 public class MajorsController {
     @Autowired
     private MajorsService majorsService;

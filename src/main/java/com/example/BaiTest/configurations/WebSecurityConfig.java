@@ -54,9 +54,17 @@ public class WebSecurityConfig {
                                     String.format("%s/adminApprovePost/**", apiPrefix)).hasRole("ADMIN")
                             .requestMatchers(GET,
                                     String.format("%s/adminApprovePost/**", apiPrefix)).hasRole("ADMIN")
+<<<<<<< HEAD
                             .requestMatchers(GET,
                                     String.format("%s/users/getAllUser", apiPrefix)).hasRole("ADMIN")
+=======
+                            .requestMatchers(POST, String.format("/%s/userCourse/**",apiPrefix)).permitAll()
+                            .requestMatchers(PUT, String.format("/%s/userCourse/**",apiPrefix)).permitAll()
+                            .requestMatchers(GET, String.format("/%s/userCourse/**",apiPrefix)).permitAll()
+                            .requestMatchers(DELETE, String.format("/%s/userCourse/**",apiPrefix)).permitAll()
+>>>>>>> 1c49dde0e7eb5499c892462d1b5428441a3d2aea
                             .anyRequest().authenticated();
+
                     //.anyRequest().permitAll();
 
                 })

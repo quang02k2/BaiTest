@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/courseLevel")
+@RequestMapping("${api.prefix}/courseLevel")
 public class CourseLevelController {
     @Autowired
     private CourseLevelService courseLevelService;

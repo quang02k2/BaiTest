@@ -43,10 +43,6 @@ public class Lesson {
     @JsonBackReference
     private Set<UserLessonCheckpoint> userLessonCheckpoint;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "courseId", foreignKey = @ForeignKey(name = "fk_lesson_course"), nullable = false)
-    @JsonManagedReference
-    private Course course;
 
 
 }

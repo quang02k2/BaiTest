@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/course")
+@RequestMapping("${api.prefix}/course")
 public class CourseController {
     @Autowired
     private CourseService courseService;
