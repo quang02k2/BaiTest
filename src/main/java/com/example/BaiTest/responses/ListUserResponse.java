@@ -1,18 +1,13 @@
 package com.example.BaiTest.responses;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoginResponse {
-
-
+public class ListUserResponse {
     private String avatar;
 
     private String email;
@@ -28,9 +23,7 @@ public class LoginResponse {
     private String firstName;
 
     private String lastName;
-    private int isActive;
 
-    @JsonProperty("token")
-    private String token;
-    private List<String> roles;
+    private String  role;
+    private int isActive;
 }

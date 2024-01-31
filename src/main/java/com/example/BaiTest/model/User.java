@@ -45,6 +45,7 @@ public class User implements UserDetails {
     private String firstName;
 
     private String lastName;
+    private int isActive;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
@@ -110,13 +111,15 @@ public class User implements UserDetails {
         return authorityList;
     }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
+
     @Override
     public String getPassword(){
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return userName;
     }
 
     @Override
