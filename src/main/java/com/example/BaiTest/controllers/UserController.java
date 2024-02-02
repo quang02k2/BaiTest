@@ -4,6 +4,7 @@ import com.example.BaiTest.dtos.User.UserDTO;
 import com.example.BaiTest.dtos.User.UserLoginDTO;
 //import com.example.BaiTest.exceptions.CustomExceptionHandler;
 import com.example.BaiTest.exceptions.DataNotFoundException;
+import com.example.BaiTest.exceptions.DisabledException;
 import com.example.BaiTest.model.User;
 import com.example.BaiTest.responses.LoginResponse;
 import com.example.BaiTest.responses.RegisterResponse;
@@ -82,7 +83,11 @@ public class UserController {
         } catch (AuthenticationException e) {
             // Sai mật khẩu hoặc thông tin đăng nhập không hợp lệ
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }catch (DisabledException e){
+            // taif khoản bị vô hiệu hóa
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         } catch (Exception e) {
+            //lỗi khác do serve
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
@@ -100,6 +105,25 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+    @GetMapping("/total-user-count")
+    public ResponseEntity<?> getTotalUserCount(){
+        try {
+            var result = userService.getTotalUserCount();
+            return  ResponseEntity.ok().body(result);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error server");
+        }
+    }
+    @GetMapping("/total-user-locked")
+    public ResponseEntity<?> getTotalUserLocked(){
+        try {
+            var result = userService.getTotalUserLocked();
+            return ResponseEntity.ok().body(result);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error server");
+        }
+    }
+
 
 
 }

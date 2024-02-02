@@ -108,5 +108,14 @@ public class CourseController {
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         StreamUtils.copy(resource, response.getOutputStream());
     }
+    @GetMapping("/total-course-count")
+    public  ResponseEntity<?> getTotalCourseCount(){
+        try {
+            var result = courseService.getTotalCourseCount();
+            return ResponseEntity.ok().body(result);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error serve");
+        }
+    }
 
 }

@@ -9,4 +9,5 @@ public interface iPostService {
     public ResponseEntity<PostResponse> addPost(PostDTO postdto);
     public ResponseEntity<?> revisePost(PostDTO postdto);
     public ResponseEntity<?> deletePost(int id);
+    long getTotalPostCount();
 }

@@ -46,7 +46,7 @@ public class CourseServiceImpl implements CourseService {
         CourseType courseType = this.courseTypeRepo.findById(courseTypeId).orElseThrow(()-> new ResourceNotFoundException("CourseType", "CourseTypeId",(long)courseTypeId));
 
         Course course = this.dtoToCourse(courseDto);
-        course.setImageCourse("default.png");
+        course.setImageCourse(courseDto.getImageCourse());
         course.setRegisterCount(courseDto.getRegisterCount());
         course.setDoneCount(1);
         course.setCourseLevel(courseLevel);
@@ -139,6 +139,12 @@ public class CourseServiceImpl implements CourseService {
         List<CourseDto> courseDtos = courses.stream().map((course)-> this.courseToDto(course)).collect(Collectors.toList());
         return courseDtos;
     }
+
+    @Override
+    public long getTotalCourseCount() {
+        return courseRepo.count();
+    }
+
 
     public Course dtoToCourse(CourseDto courseDto){
         return modelMapper.map(courseDto, Course.class);

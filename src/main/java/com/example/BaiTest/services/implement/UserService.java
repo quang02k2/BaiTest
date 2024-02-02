@@ -23,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -104,6 +105,9 @@ public class UserService implements IUserService {
         if(existingUser == null) {
             throw new DataNotFoundException(MessageKeys.EMAIL_DOES_NOT_EXISTS);
         }
+        if(existingUser.getIsActive() == 0){
+            throw new DisabledException(MessageKeys.USER_ACCOUNT_IS_DISABLED);
+        }
         //lấy ra user
 //        User existingUser = optionalUser.get();
 
@@ -125,22 +129,30 @@ public class UserService implements IUserService {
         //sinh ngẫu nhiên 1 token từ existingUser
         String token = jwtTokenUtil.generateToken(existingUser);
         LoginResponse loginResponse = LoginResponse.builder()
-                .email(existingUser.getEmail())
-                .userName(existingUser.getUsername())
-                .gender(existingUser.getGender())
-                .address(existingUser.getAddress())
-                .avatar(existingUser.getAvatar())
-                .dateOfBirth(existingUser.getDateOfBirth())
-                .firstName(existingUser.getFirstName())
-                .lastName(existingUser.getLastName())
-                .isActive(existingUser.getIsActive())
+                .userName(existingUser.getUserName())
                 .token(token)
                 .roles(roles)
                 .build();
         return loginResponse;
     }
 
-//    @Override
+    @Override
+    public long getTotalUserCount() {
+        return userRepository.count();
+    }
+
+    @Override
+    public long getTotalUserLocked() {
+        long totalUserlocked = 0;
+        for (User user: userRepository.findAll()){
+            if(user.getIsActive() == 0 ){
+                totalUserlocked ++;
+            }
+        }
+        return totalUserlocked;
+    }
+
+    //    @Override
 //    public String login(
 //            String email,
 //            String password

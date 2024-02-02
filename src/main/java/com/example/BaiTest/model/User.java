@@ -111,6 +111,13 @@ public class User implements UserDetails {
         return authorityList;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     @Override
     public String getPassword(){
@@ -119,7 +126,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return email;
     }
 
     @Override

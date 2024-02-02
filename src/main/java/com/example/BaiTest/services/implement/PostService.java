@@ -175,4 +175,9 @@ public class PostService implements iPostService {
         return new ResponseEntity<>("xoa that bai", HttpStatus.BAD_REQUEST);
     }
 
+    @Override
+    public long getTotalPostCount() {
+        return postRepo.count();
+    }
+
 }

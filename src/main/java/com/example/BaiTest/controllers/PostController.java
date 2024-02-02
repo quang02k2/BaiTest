@@ -6,6 +6,7 @@ import com.example.BaiTest.services.implement.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,5 +45,13 @@ public class PostController {
             return postService.deletePost(id);
     }
 
-
+    @GetMapping("/total-post-count")
+    public ResponseEntity<?> getTotalPostCount(){
+        try {
+            var result = postService.getTotalPostCount();
+            return ResponseEntity.ok().body(result);
+        }catch (Exception e){
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error serve");
+        }
+    }
 }

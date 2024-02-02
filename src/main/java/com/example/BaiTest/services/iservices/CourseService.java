@@ -18,5 +18,6 @@ public interface CourseService {
     List<CourseDto> getCourseByCourseLevel(int courseLevelId);
     List<CourseDto> getCourseByCourseType(int courseTypeId);
     List<CourseDto> findByNameOfCourseContaining(String keyWord);
+    long getTotalCourseCount();
 
 }

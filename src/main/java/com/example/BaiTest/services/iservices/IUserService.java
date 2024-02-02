@@ -16,5 +16,8 @@ public interface IUserService {
 
     UserResponse getAllUser(int numberPage, int limit);
     LoginResponse login(UserLoginDTO userLoginDTO) throws Exception;
+    long getTotalUserCount();
+
+    long getTotalUserLocked();
 
 }

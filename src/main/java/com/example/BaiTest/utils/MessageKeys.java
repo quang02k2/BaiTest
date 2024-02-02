@@ -18,6 +18,7 @@ public class MessageKeys {
     public static final String INSERT_CATEGORY_FAILED = "category.create_category.create_failed";
     public static final String WRONG_PHONE_PASSWORD = "user.login.wrong_phone_password";
     public static final String EMAIL_DOES_NOT_EXISTS = "Email_not_exist";
+    public static final String USER_ACCOUNT_IS_DISABLED = "User account is disabled";
     public static final String ROLE_DOES_NOT_EXISTS = "user.login.role_not_exist";
 
 
